@@ -19,6 +19,26 @@ a:hover{color:#FF6600}
 *{box-sizing:border-box}
 input,textarea,select,button{font-family:inherit}
 
+@keyframes nosotros-glow{
+  0%,100%{opacity:.55;transform:scale(1)}
+  50%{opacity:.9;transform:scale(1.06)}
+}
+.nosotros-glow,
+.norma-glow{
+  animation:nosotros-glow 5.5s ease-in-out infinite;
+  will-change:opacity,transform;
+}
+@media (prefers-reduced-motion:reduce){
+  .nosotros-glow,
+  .norma-glow{animation:none}
+}
+.privacy-modal-scroll::-webkit-scrollbar{width:8px}
+.privacy-modal-scroll::-webkit-scrollbar-thumb{background:rgba(13,24,70,.22);border-radius:999px}
+.privacy-modal-scroll h3{font:600 16px/1.35 Outfit,sans-serif;color:#0D1846;margin:28px 0 12px}
+.privacy-modal-scroll p,.privacy-modal-scroll li{font:300 14.5px/1.65 Figtree,sans-serif;color:rgba(13,24,70,.82);margin:0 0 12px}
+.privacy-modal-scroll ul{margin:0 0 14px;padding-left:18px}
+.privacy-modal-scroll li{margin-bottom:6px}
+
 /* Evaluación: timeline móvil (alineado al breakpoint isMobile) */
 @media (max-width:900px){
   #evaluacion .eval-wrap{padding:72px 22px !important}
@@ -77,14 +97,55 @@ input,textarea,select,button{font-family:inherit}
     gap:12px !important;
   }
   #desarrollo .dev-hex{
-    width:68px !important;
-    height:76px !important;
+    width:72px !important;
+    height:80px !important;
   }
-  #desarrollo .dev-hex svg{width:26px;height:26px}
+  #desarrollo .dev-hex img{
+    width:34px !important;
+    height:34px !important;
+  }
   #desarrollo .dev-item p{
     font-size:13.5px !important;
     line-height:1.3 !important;
     max-width:140px !important;
+  }
+
+  /* Quiénes somos: imagen arriba de misión/visión */
+  #nosotros .nosotros-wrap{padding:72px 22px !important}
+  #nosotros .nosotros-hero{
+    grid-template-columns:1fr !important;
+    gap:36px !important;
+  }
+  #nosotros .nosotros-visual{
+    max-width:420px;
+    margin:0 auto;
+    width:100%;
+  }
+  #nosotros .nosotros-frame{
+    aspect-ratio:16/11 !important;
+  }
+  #nosotros .nosotros-frame img{
+    object-position:28% 35% !important;
+  }
+  #nosotros .nosotros-cards{margin-top:36px !important}
+
+  /* Normatividad: imagen + lista en móvil */
+  #normatividad .norma-wrap{padding:72px 22px !important}
+  #normatividad .norma-layout{
+    grid-template-columns:1fr !important;
+    gap:32px !important;
+  }
+  #normatividad .norma-visual{
+    grid-row:auto !important;
+    order:2;
+    max-width:520px;
+    margin:0 auto;
+    width:100%;
+  }
+  #normatividad .norma-copy{order:1}
+  #normatividad .norma-list{order:3}
+  #normatividad .norma-frame{
+    aspect-ratio:16/11 !important;
   }
 }
 </style>
@@ -100,6 +161,7 @@ input,textarea,select,button{font-family:inherit}
 <a href="#nosotros" style="color:rgba(255,255,255,.82)" style-hover="color:#FF6600">Quiénes somos</a>
 <a href="#soluciones" style="color:rgba(255,255,255,.82)" style-hover="color:#FF6600">Soluciones</a>
 <a href="#porque" style="color:rgba(255,255,255,.82)" style-hover="color:#FF6600">Por qué Talenti</a>
+<a href="https://alonso-upgrade-angular.d2a02pier3ifmj.amplifyapp.com/login" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.82)" style-hover="color:#FF6600">Acceder al sistema</a>
 <a href="#contacto" style="background:#FF6600;color:#fff;font:600 14px/1 Figtree,sans-serif;padding:12px 22px;border-radius:999px;margin-left:6px" style-hover="background:#ff8534;color:#fff">Contáctanos</a>
 </nav>
 </sc-if>
@@ -121,6 +183,7 @@ input,textarea,select,button{font-family:inherit}
 <a href="#desarrollo" onClick="{{ closeMenu }}" style="color:rgba(255,255,255,.78);padding:15px 2px 15px 18px;border-bottom:1px solid rgba(255,255,255,.06);font-size:15.5px" style-hover="color:#FF6600">Desarrollo Organizacional</a>
 <a href="#especializados" onClick="{{ closeMenu }}" style="color:rgba(255,255,255,.78);padding:15px 2px 15px 18px;border-bottom:1px solid rgba(255,255,255,.1);font-size:15.5px" style-hover="color:#FF6600">Servicios Especializados</a>
 <a href="#porque" onClick="{{ closeMenu }}" style="color:#fff;padding:17px 2px;border-bottom:1px solid rgba(255,255,255,.1)" style-hover="color:#FF6600">Por qué Talenti</a>
+<a href="https://alonso-upgrade-angular.d2a02pier3ifmj.amplifyapp.com/login" target="_blank" rel="noopener noreferrer" onClick="{{ closeMenu }}" style="color:#fff;padding:17px 2px;border-bottom:1px solid rgba(255,255,255,.1)" style-hover="color:#FF6600">Acceder al sistema</a>
 <a href="#contacto" onClick="{{ closeMenu }}" style="margin-top:20px;background:#FF6600;color:#fff;text-align:center;font:600 16px/1 Figtree,sans-serif;padding:18px;border-radius:999px" style-hover="background:#ff8534;color:#fff">Contáctanos</a>
 </nav>
 </sc-if>
@@ -159,21 +222,32 @@ input,textarea,select,button{font-family:inherit}
 </div>
 </section>
 
-<section id="nosotros" style="background:#EEF3F7">
-<div style="max-width:1240px;margin:0 auto;padding:104px 28px">
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:64px;align-items:start">
-<div data-reveal="">
+<section id="nosotros" style="background:#EEF3F7;position:relative;overflow:clip">
+<div style="position:absolute;right:-8%;top:8%;width:42%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(1,11,142,.08),rgba(1,11,142,0));pointer-events:none"></div>
+<div class="nosotros-wrap" style="position:relative;max-width:1240px;margin:0 auto;padding:104px 28px">
+<div class="nosotros-hero" style="display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center">
+<div data-reveal="" style="min-width:0">
 <p style="font:600 12px/1 Figtree,sans-serif;letter-spacing:.16em;color:#0D1846;margin:0 0 20px;display:flex;align-items:center;gap:10px"><span style="width:22px;height:3px;border-radius:999px;background:#FF6600;flex:none"></span>QUIÉNES SOMOS</p>
 <h2 style="font:600 clamp(30px,3.4vw,46px)/1.12 Outfit,sans-serif;letter-spacing:-.015em;margin:0 0 20px;text-wrap:balance">Un aliado estratégico para Recursos Humanos</h2>
-<div style="width:56px;height:4px;background:#FF6600;border-radius:999px"></div>
-</div>
-<div data-reveal="" style="display:flex;flex-direction:column;gap:22px;font:300 17px/1.68 Figtree,sans-serif;color:rgba(13,24,70,.8);max-width:620px">
+<div style="width:56px;height:4px;background:#FF6600;border-radius:999px;margin-bottom:28px"></div>
+<div style="display:flex;flex-direction:column;gap:22px;font:300 17px/1.68 Figtree,sans-serif;color:rgba(13,24,70,.8);max-width:560px">
 <p style="margin:0;text-wrap:pretty">En Grupo Talenti desarrollamos soluciones para acompañar a las empresas en los diferentes retos de la gestión del talento.</p>
 <p style="margin:0;text-wrap:pretty">Desde la atracción y selección de personal hasta la evaluación, el cumplimiento normativo y el desarrollo de colaboradores, integramos herramientas y servicios que permiten a nuestros clientes contar con información relevante para tomar mejores decisiones.</p>
 </div>
 </div>
 
-<div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:64px">
+<div data-reveal="" class="nosotros-visual" style="position:relative;min-width:0">
+<div class="nosotros-glow" style="position:absolute;left:18%;top:12%;width:70%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(64,196,255,.45) 0%,rgba(64,196,255,0) 72%);filter:blur(28px);pointer-events:none;z-index:0"></div>
+<div style="position:absolute;right:-10px;bottom:-14px;width:72%;height:78%;background:#FF6600;border-radius:28px;opacity:.92;z-index:0"></div>
+<div style="position:absolute;left:-14px;top:18%;width:18px;height:42%;background:#0D1846;border-radius:999px;z-index:2"></div>
+<div class="nosotros-frame" style="position:relative;z-index:1;aspect-ratio:4/5;border-radius:28px;overflow:hidden;box-shadow:0 28px 60px rgba(13,24,70,.28),0 0 0 1px rgba(255,255,255,.12) inset">
+<img src="assets/talenti_persona1.png" alt="Profesional de Recursos Humanos trabajando con tecnología avanzada de capacitación y evaluación" style="display:block;width:100%;height:100%;object-fit:cover;object-position:32% center;transform:scale(1.02)">
+<div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(13,24,70,.08) 0%,rgba(13,24,70,0) 38%,rgba(7,12,36,.22) 100%);pointer-events:none"></div>
+</div>
+</div>
+</div>
+
+<div data-reveal="" class="nosotros-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:64px">
 <div style="background:#F2F2F0;border-radius:20px;padding:34px 30px;min-height:200px;display:flex;flex-direction:column">
 <div style="width:44px;height:44px;border-radius:13px;background:rgba(255,102,0,.11);display:flex;align-items:center;justify-content:center;margin-bottom:20px"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#FF6600" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3.4"></circle><circle cx="12" cy="12" r="0.9" fill="#FF6600" stroke="none"></circle></svg></div><h3 style="font:600 21px/1.2 Outfit,sans-serif;margin:0 0 14px">Misión</h3>
 <div style="margin-top:auto;border:1px dashed rgba(13,24,70,.3);border-radius:12px;padding:16px;font:400 12px/1.5 ui-monospace,Menlo,monospace;color:rgba(13,24,70,.55)">texto de misión — pendiente de Grupo Talenti</div>
@@ -386,14 +460,23 @@ input,textarea,select,button{font-family:inherit}
 
 <section id="normatividad" style="background:#EEF3F7;position:relative;overflow:clip">
 <img src="assets/isotipo-color.png" alt="" style="position:absolute;left:-6%;bottom:-16%;height:82%;opacity:.07;pointer-events:none">
-<div style="position:relative;max-width:1240px;margin:0 auto;padding:104px 28px">
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:60px;align-items:start">
-<div data-reveal="">
+<div class="norma-wrap" style="position:relative;max-width:1240px;margin:0 auto;padding:104px 28px">
+<div class="norma-layout" style="display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center">
+<div data-reveal="" class="norma-visual" style="position:relative;min-width:0;grid-row:1 / span 2">
+<div class="norma-glow" style="position:absolute;left:10%;top:8%;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(64,196,255,.4) 0%,rgba(64,196,255,0) 72%);filter:blur(28px);pointer-events:none;z-index:0"></div>
+<div style="position:absolute;left:-12px;top:-12px;width:70%;height:72%;background:#FF6600;border-radius:28px;opacity:.9;z-index:0"></div>
+<div style="position:absolute;right:-12px;bottom:16%;width:14px;height:40%;background:#0D1846;border-radius:999px;z-index:2"></div>
+<div class="norma-frame" style="position:relative;z-index:1;aspect-ratio:5/4;border-radius:28px;overflow:hidden;box-shadow:0 28px 60px rgba(13,24,70,.28),0 0 0 1px rgba(255,255,255,.12) inset">
+<img src="assets/talenti_persona2.png" alt="Equipo de Recursos Humanos analizando programas de capacitación y liderazgo con tecnología avanzada" style="display:block;width:100%;height:100%;object-fit:cover;object-position:center 40%;transform:scale(1.02)">
+<div style="position:absolute;inset:0;background:linear-gradient(200deg,rgba(13,24,70,.06) 0%,rgba(13,24,70,0) 42%,rgba(7,12,36,.2) 100%);pointer-events:none"></div>
+</div>
+</div>
+<div data-reveal="" class="norma-copy" style="min-width:0">
 <p style="font:600 12px/1 Figtree,sans-serif;letter-spacing:.16em;color:#0D1846;margin:0 0 20px;display:flex;align-items:center;gap:10px"><span style="width:22px;height:3px;border-radius:999px;background:#FF6600;flex:none"></span>NORMATIVIDAD APLICADA A RRHH</p>
 <h2 style="font:600 clamp(30px,3.4vw,44px)/1.12 Outfit,sans-serif;letter-spacing:-.015em;margin:0 0 22px;text-wrap:balance">Fortalece tus procesos de Recursos Humanos</h2>
 <p style="font:300 17px/1.68 Figtree,sans-serif;color:rgba(13,24,70,.78);margin:0;max-width:520px;text-wrap:pretty">Acompañamos a las organizaciones en la revisión, implementación y adecuación de procesos relacionados con normatividad, seguridad y gestión de riesgos laborales.</p>
 </div>
-<div data-reveal="" style="display:flex;flex-direction:column">
+<div data-reveal="" class="norma-list" style="display:flex;flex-direction:column;min-width:0">
 <div style="display:flex;gap:20px;align-items:baseline;padding:22px 0;border-top:1px solid rgba(13,24,70,.12)"><span style="font:600 13px/1 Figtree,sans-serif;color:#0D1846;flex:none;width:26px">01</span><p style="font:400 17.5px/1.4 Outfit,sans-serif;margin:0">Diagnóstico e Implementación NOM-035</p></div>
 <div style="display:flex;gap:20px;align-items:baseline;padding:22px 0;border-top:1px solid rgba(13,24,70,.12)"><span style="font:600 13px/1 Figtree,sans-serif;color:#0D1846;flex:none;width:26px">02</span><p style="font:400 17.5px/1.4 Outfit,sans-serif;margin:0">Servicios relacionados con ATS y Riesgos Psicosociales</p></div>
 <div style="display:flex;gap:20px;align-items:baseline;padding:22px 0;border-top:1px solid rgba(13,24,70,.12)"><span style="font:600 13px/1 Figtree,sans-serif;color:#0D1846;flex:none;width:26px">03</span><p style="font:400 17.5px/1.4 Outfit,sans-serif;margin:0">Revisión y Adecuación del Reglamento Interno de Trabajo</p></div>
@@ -420,42 +503,42 @@ input,textarea,select,button{font-family:inherit}
 <div data-reveal="" class="dev-item" style="min-width:0;min-height:200px;display:flex;flex-direction:column;align-items:center;gap:18px">
 <div style="filter:drop-shadow(0 14px 26px rgba(0,0,0,.32));flex:none">
 <div class="dev-hex" style="width:96px;height:106px;background:#FF6600;clip-path:polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);display:flex;align-items:center;justify-content:center">
-<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 19 6v6c0 4.2-3 7-7 8.5C8 19 5 16.2 5 12V6z"></path></svg>
+<img src="assets/rombos/01-seguridad.png" alt="" width="46" height="46" style="width:46px;height:46px;display:block;object-fit:contain">
 </div></div>
 <p style="font:500 15.5px/1.4 Figtree,sans-serif;color:#fff;margin:0;text-align:center;max-width:200px;text-wrap:balance">Capacitaciones de Seguridad</p>
 </div>
 <div data-reveal="" class="dev-item" style="min-width:0;min-height:200px;display:flex;flex-direction:column;align-items:center;gap:18px">
 <div style="filter:drop-shadow(0 14px 26px rgba(0,0,0,.32));flex:none">
 <div class="dev-hex" style="width:96px;height:106px;background:#FF6600;clip-path:polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);display:flex;align-items:center;justify-content:center">
-<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"></path><line x1="4" y1="5.5" x2="4" y2="20.5"></line></svg>
+<img src="assets/rombos/02-colaboradores.png" alt="" width="46" height="46" style="width:46px;height:46px;display:block;object-fit:contain">
 </div></div>
 <p style="font:500 15.5px/1.4 Figtree,sans-serif;color:#fff;margin:0;text-align:center;max-width:200px;text-wrap:balance">Capacitación a Colaboradores</p>
 </div>
 <div data-reveal="" class="dev-item" style="min-width:0;min-height:200px;display:flex;flex-direction:column;align-items:center;gap:18px">
 <div style="filter:drop-shadow(0 14px 26px rgba(0,0,0,.32));flex:none">
 <div class="dev-hex" style="width:96px;height:106px;background:#FF6600;clip-path:polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);display:flex;align-items:center;justify-content:center">
-<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17a8 8 0 1 1 16 0"></path><line x1="12" y1="17" x2="16.2" y2="10.8"></line></svg>
+<img src="assets/rombos/03-clima.svg" alt="" width="46" height="46" style="width:46px;height:46px;display:block;object-fit:contain">
 </div></div>
 <p style="font:500 15.5px/1.4 Figtree,sans-serif;color:#fff;margin:0;text-align:center;max-width:200px;text-wrap:balance">Evaluación de Clima Laboral</p>
 </div>
 <div data-reveal="" class="dev-item" style="min-width:0;min-height:200px;display:flex;flex-direction:column;align-items:center;gap:18px">
 <div style="filter:drop-shadow(0 14px 26px rgba(0,0,0,.32));flex:none">
 <div class="dev-hex" style="width:96px;height:106px;background:#FF6600;clip-path:polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);display:flex;align-items:center;justify-content:center">
-<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"></path><polyline points="19.6 3.6 19.6 8 15.2 8"></polyline></svg>
+<img src="assets/rombos/04-evaluaciones.png" alt="" width="46" height="46" style="width:46px;height:46px;display:block;object-fit:contain">
 </div></div>
 <p style="font:500 15.5px/1.4 Figtree,sans-serif;color:#fff;margin:0;text-align:center;max-width:200px;text-wrap:balance">Evaluaciones 90°, 180° y 360°</p>
 </div>
 <div data-reveal="" class="dev-item" style="min-width:0;min-height:200px;display:flex;flex-direction:column;align-items:center;gap:18px">
 <div style="filter:drop-shadow(0 14px 26px rgba(0,0,0,.32));flex:none">
 <div class="dev-hex" style="width:96px;height:106px;background:#FF6600;clip-path:polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);display:flex;align-items:center;justify-content:center">
-<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6.5" r="3"></circle><circle cx="5.5" cy="16" r="3"></circle><circle cx="18.5" cy="16" r="3"></circle></svg>
+<img src="assets/rombos/05-team-building.png" alt="" width="46" height="46" style="width:46px;height:46px;display:block;object-fit:contain">
 </div></div>
 <p style="font:500 15.5px/1.4 Figtree,sans-serif;color:#fff;margin:0;text-align:center;max-width:200px;text-wrap:balance">Team Building</p>
 </div>
 <div data-reveal="" class="dev-item" style="min-width:0;min-height:200px;display:flex;flex-direction:column;align-items:center;gap:18px">
 <div style="filter:drop-shadow(0 14px 26px rgba(0,0,0,.32));flex:none">
 <div class="dev-hex" style="width:96px;height:106px;background:#FF6600;clip-path:polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);display:flex;align-items:center;justify-content:center">
-<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="14" rx="3"></rect><line x1="8" y1="3.5" x2="8" y2="7"></line><line x1="16" y1="3.5" x2="16" y2="7"></line><line x1="4" y1="11" x2="20" y2="11"></line></svg>
+<img src="assets/rombos/06-eventos.png" alt="" width="46" height="46" style="width:46px;height:46px;display:block;object-fit:contain">
 </div></div>
 <p style="font:500 15.5px/1.4 Figtree,sans-serif;color:#fff;margin:0;text-align:center;max-width:200px;text-wrap:balance">Eventos Corporativos</p>
 </div>
@@ -560,16 +643,116 @@ input,textarea,select,button{font-family:inherit}
 <a href="#nosotros" style="color:rgba(255,255,255,.7)" style-hover="color:#FF6600">Quiénes somos</a>
 <a href="#soluciones" style="color:rgba(255,255,255,.7)" style-hover="color:#FF6600">Soluciones</a>
 <a href="#contacto" style="color:rgba(255,255,255,.7)" style-hover="color:#FF6600">Contacto</a>
+<button type="button" onClick="{{ openPrivacy }}" style="background:none;border:none;padding:0;cursor:pointer;font:400 14px/1 Figtree,sans-serif;color:rgba(255,255,255,.7)" style-hover="color:#FF6600">Aviso de privacidad</button>
 </nav>
 <p style="font:400 13.5px/1.5 Figtree,sans-serif;margin:0;color:rgba(255,255,255,.5)">www.talenti.com.mx</p>
 </div>
 </footer>
 
+<sc-if value="{{ privacyOpen }}">
+<div onClick="{{ closePrivacyOverlay }}" style="position:fixed;inset:0;z-index:80;background:rgba(7,12,36,.62);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px">
+<div role="dialog" aria-modal="true" aria-labelledby="privacy-title" style="position:relative;width:min(860px,100%);max-height:min(88vh,920px);background:#fff;border-radius:22px;box-shadow:0 28px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden">
+<div style="flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:26px 28px 18px;border-bottom:1px solid rgba(13,24,70,.08)">
+<div>
+<p style="font:600 11px/1 Figtree,sans-serif;letter-spacing:.14em;color:#FF6600;margin:0 0 10px">GRUPO TALENTI</p>
+<h2 id="privacy-title" style="font:600 clamp(22px,3vw,30px)/1.15 Outfit,sans-serif;margin:0;color:#0D1846;text-wrap:balance">Aviso de Privacidad Integral</h2>
+</div>
+<button type="button" onClick="{{ closePrivacy }}" aria-label="Cerrar aviso de privacidad" style="flex:none;width:42px;height:42px;border-radius:12px;border:1px solid rgba(13,24,70,.12);background:#F2F2F0;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="background:#EEF3F7">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D1846" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+</button>
+</div>
+<div class="privacy-modal-scroll" style="flex:1;overflow:auto;padding:8px 28px 32px">
+<p>Con la finalidad de regular el tratamiento legítimo, controlado e informado y garantizar la privacidad y el derecho de autodeterminación informativa de las personas, Soluciones de Evaluación para el Talento, S.A. de C.V., en adelante <strong>GRUPO TALENTI</strong>, pone a su disposición el presente aviso de tratamiento de datos personales. Lo anterior, de conformidad con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares, su Reglamento, así como de los Lineamientos del Aviso de Privacidad expedidos por la Secretaría de Economía publicados en el Diario Oficial de la Federación con fecha 17 de enero de 2013 y el Reglamento General de Protección de Datos de la Unión Europea.</p>
+
+<h3>Responsable del tratamiento de datos personales</h3>
+<p><strong>GRUPO TALENTI</strong> con domicilio en avenida Azcapotzalco, número 402 Bis, colonia Nextengo, código postal 02070, alcaldía Gustavo A. Madero en la Ciudad de México.</p>
+<ul>
+<li>Teléfono: 55 7599 0063</li>
+<li>Correo electrónico: contacto@talenti.com.mx</li>
+</ul>
+<p><strong>GRUPO TALENTI</strong> recaba y realiza el tratamiento (obtención, uso, divulgación o almacenamiento) de sus datos personales basado en los principios de licitud, consentimiento, información, calidad, finalidad, lealtad, proporcionalidad y responsabilidad previstos en la Ley.</p>
+<p><strong>GRUPO TALENTI</strong> implementa medidas de seguridad administrativas, técnicas y físicas que protegen sus datos personales contra daño, pérdida, alteración, destrucción o el uso, acceso o tratamiento no autorizado.</p>
+<p><strong>GRUPO TALENTI</strong> o cualquier tercero que intervenga en el tratamiento de sus datos personales guardará confidencialidad, subsistiendo esta obligación, aún después de finalizar la relación jurídica.</p>
+<p>El tratamiento de sus datos personales al ser un derecho fundamental reconocido en las disposiciones de los Estados Unidos Mexicanos, Carta de los Derechos Fundamentales de la Unión Europea, así como en el Reglamento Europeo y el Consejo de la Unión Europea, se aplicará a las personas físicas independientemente de su nacionalidad o de su lugar de residencia. Lo anterior, en el entendido de que TALENTI oferta sus servicios a personas de diferentes nacionalidades, entre ellas las pertenecientes a la Unión Europea.</p>
+
+<h3>Datos que recaba GRUPO TALENTI</h3>
+<p>Usted en su calidad de prospecto o <strong>CLIENTE</strong> de <strong>GRUPO TALENTI</strong> proporcionará datos personales con el objeto de solicitar información de nuestros servicios:</p>
+<ul>
+<li><strong>Datos de identificación:</strong> nombre completo</li>
+<li><strong>Datos de contacto:</strong> correo electrónico y teléfono</li>
+</ul>
+<p>Asimismo, en caso de persona física:</p>
+<ul>
+<li><strong>Datos de identificación:</strong> nombre completo, identificación oficial válida y vigente (credencial para votar, pasaporte o cédula profesional), CURP, RFC</li>
+<li><strong>Datos de contacto:</strong> correo electrónico y teléfono</li>
+<li><strong>Datos personales laborales:</strong> ramo comercial, domicilio fiscal</li>
+<li><strong>Datos patrimoniales:</strong> cuenta bancaria y titular</li>
+</ul>
+<p>En caso de persona moral:</p>
+<ul>
+<li><strong>Datos de la empresa:</strong> instrumento notarial donde conste la constitución de la empresa, así como el instrumento notarial del representante legal, giro comercial</li>
+<li><strong>Datos del representante legal:</strong> nombre completo, nacionalidad, identificación oficial, CURP, RFC, correo electrónico, teléfonos, cargo, datos institucionales</li>
+<li><strong>Datos patrimoniales o financieros de la empresa:</strong> constancia de situación fiscal y cuenta bancaria</li>
+</ul>
+<p>No recabamos datos sensibles, como información sobre posturas ideológicas, religiosas, filosóficas o morales, opinión política, afiliación sindical, salud, vida sexual u origen étnico o racial.</p>
+
+<h3>Finalidades del tratamiento</h3>
+<p><strong>Principales:</strong></p>
+<ul>
+<li>Brindarle información de los servicios que oferta GRUPO TALENTI</li>
+<li>Suscribir el contrato de prestación de servicios</li>
+<li>Dar seguimiento de la prestación de los servicios contratados</li>
+<li>Expedición de comprobantes fiscales</li>
+<li>Aclaración de dudas por la prestación de los servicios</li>
+<li>Alta como CLIENTE de GRUPO TALENTI</li>
+<li>Cobro por los servicios prestados</li>
+</ul>
+<p><strong>Secundarias</strong> (no necesarias, pero nos permiten brindarle):</p>
+<ul>
+<li>Descuentos, promociones, cortesías, invitaciones a eventos, webinars o capacitaciones</li>
+<li>Comunicados de seguimiento a CLIENTES cuando no han solicitado servicios</li>
+<li>Informarle nuestro calendario de días laborables</li>
+<li>Enviarle publicidad de los servicios de GRUPO TALENTI</li>
+</ul>
+<p>La negativa para el uso de sus datos personales para finalidades secundarias no podrá ser motivo para negarle los servicios. Si no desea ese tratamiento, infórmelo a <strong>contacto@talenti.com.mx</strong>.</p>
+<p>Podemos recabar sus datos personalmente, vía telefónica, videoconferencia, correo electrónico, formularios en la página web u otros medios legalmente permitidos.</p>
+
+<h3>¿Con quién comparte sus datos GRUPO TALENTI?</h3>
+<p>Sus datos personales pueden ser transferidos y tratados con filiales, subsidiarias de GRUPO TALENTI, así como nuestros colaboradores, con el objeto de brindarle los servicios contratados. GRUPO TALENTI no comparte sus datos personales a terceros nacionales o extranjeros que no formen parte de GRUPO TALENTI.</p>
+<p>En cumplimiento a obligaciones legales y requerimientos de autoridades, podrá compartir datos personales con autoridades federales y locales.</p>
+
+<h3>Derechos ARCO (Acceso, Rectificación, Cancelación u Oposición)</h3>
+<p>Se entenderá que el CLIENTE otorga consentimiento tácito cuando este aviso sea puesto a su disposición y no haya manifestado oposición expresa.</p>
+<p>Usted tiene derecho a conocer qué datos personales trataremos y cómo (Acceso); solicitar corrección (Rectificación); eliminación cuando no se utilicen conforme a la normativa (Cancelación); y oponerse al uso para fines específicos (Oposición).</p>
+<p>Para ejercer derechos ARCO, presente solicitud a <strong>contacto@talenti.com.mx</strong> o de manera presencial en el domicilio del responsable, con nombre del titular o representante, correo de seguimiento, documentos de identidad, descripción clara de los datos y cualquier elemento que facilite su localización.</p>
+<p>Dentro de los siguientes 20 días naturales se dará respuesta a la solicitud. Para más información: 55 7599 0063 o contacto@talenti.com.mx.</p>
+
+<h3>Revocación de consentimiento</h3>
+<p>Puede revocar su consentimiento de manera expresa en el domicilio de GRUPO TALENTI o al correo contacto@talenti.com.mx. La revocación puede implicar que no podamos seguir prestando el servicio solicitado. En algunos casos no será posible concluir el uso de forma inmediata por obligaciones legales.</p>
+
+<h3>Limitación de uso o divulgación</h3>
+<ul>
+<li>Inscripción en el Registro Público para Evitar Publicidad (PROFECO)</li>
+<li>Registro en la Lista de Exclusión de GRUPO TALENTI (55 7599 0063 o contacto@talenti.com.mx)</li>
+</ul>
+
+<h3>Uso de tecnologías en el portal</h3>
+<p>Le informamos que en nuestra página de Internet no utilizamos tecnologías de rastreo.</p>
+
+<h3>Cambios al aviso de privacidad</h3>
+<p>Nos reservamos el derecho de realizar modificaciones o actualizaciones a este aviso. Los cambios se comunicarán al correo del CLIENTE y a través de <a href="https://talenti.com.mx" target="_blank" rel="noopener noreferrer">talenti.com.mx/avisodeprivacidad</a>.</p>
+<p>Para dudas o aclaraciones: 55 7599 0063 o contacto@talenti.com.mx.</p>
+<p style="margin-top:22px;color:rgba(13,24,70,.55)">Fecha de última actualización: 1 de noviembre de 2024.</p>
+</div>
+</div>
+</div>
+</sc-if>
+
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { narrow: false, menuOpen: false };
+  state = { narrow: false, menuOpen: false, privacyOpen: false };
   componentDidMount() {
     const mq = window.matchMedia('(max-width: 900px)');
     const sync = () => this.setState(s => ({ narrow: mq.matches, menuOpen: mq.matches ? s.menuOpen : false }));
@@ -643,8 +826,23 @@ class Component extends DCLogic {
       isDesktop: !this.state.narrow,
       isMobile: this.state.narrow,
       menuOpen: this.state.narrow && this.state.menuOpen,
+      privacyOpen: this.state.privacyOpen,
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
-      closeMenu: () => this.setState({ menuOpen: false })
+      closeMenu: () => this.setState({ menuOpen: false }),
+      openPrivacy: () => {
+        document.body.style.overflow = 'hidden';
+        this.setState({ privacyOpen: true, menuOpen: false });
+      },
+      closePrivacy: () => {
+        document.body.style.overflow = '';
+        this.setState({ privacyOpen: false });
+      },
+      closePrivacyOverlay: (e) => {
+        if (e && e.target === e.currentTarget) {
+          document.body.style.overflow = '';
+          this.setState({ privacyOpen: false });
+        }
+      }
     };
   }
 }
