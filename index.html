@@ -137,6 +137,14 @@ input,textarea,select,button{font-family:inherit}
 }
 
 .dabata-btn{transition:background-color .25s ease,color .25s ease,border-color .25s ease}
+
+.mobile-menu-overlay{animation:menuOverlayIn .28s ease}
+.mobile-menu-panel{animation:menuPanelIn .32s cubic-bezier(.22,.61,.36,1)}
+@keyframes menuOverlayIn{from{opacity:0}to{opacity:1}}
+@keyframes menuPanelIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){
+  .mobile-menu-overlay,.mobile-menu-panel{animation:none !important}
+}
 @media (max-width:1180px) and (min-width:901px){
   .header-nav{gap:14px !important;font-size:13px !important}
   .header-nav .dabata-btn{padding:10px 14px !important;font-size:13px !important}
@@ -258,6 +266,13 @@ input,textarea,select,button{font-family:inherit}
   #experiencia .exp-stat strong{
     font-size:48px !important;
   }
+  #experiencia .client-logos{
+    gap:36px 44px !important;
+  }
+  #experiencia .client-logos img{
+    height:48px !important;
+    max-width:160px !important;
+  }
 
   /* Normatividad: imagen + lista en móvil */
   #normatividad .norma-wrap{padding:72px 22px !important}
@@ -291,8 +306,7 @@ input,textarea,select,button{font-family:inherit}
 <a href="#nosotros" style="color:rgba(255,255,255,.82)" style-hover="color:#FF6600">Quiénes somos</a>
 <a href="#soluciones" style="color:rgba(255,255,255,.82)" style-hover="color:#FF6600">Soluciones</a>
 <a href="#porque" style="color:rgba(255,255,255,.82)" style-hover="color:#FF6600">Por qué Talenti</a>
-<a href="https://alonso-upgrade-angular.d2a02pier3ifmj.amplifyapp.com/login" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.82)" style-hover="color:#FF6600">Acceder al sistema</a>
-<a href="https://talenti.com.mx/sistema_digital" target="_blank" rel="noopener noreferrer" class="dabata-btn" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.55);color:#fff;font:600 14px/1 Figtree,sans-serif;padding:11px 18px;border-radius:999px;margin-left:6px;background:rgba(255,255,255,.06)" style-hover="border-color:#fff;background:#fff;color:#0D1846"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"></rect><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path></svg>Acceso al sistema (DABATA)</a>
+<a href="https://alonso-upgrade-angular.d2a02pier3ifmj.amplifyapp.com/login" target="_blank" rel="noopener noreferrer" class="dabata-btn" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.55);color:#fff;font:600 14px/1 Figtree,sans-serif;padding:11px 18px;border-radius:999px;margin-left:6px;background:rgba(255,255,255,.06)" style-hover="border-color:#fff;background:#fff;color:#0D1846"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"></rect><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path></svg>Acceso al sistema (DABATA)</a>
 <a href="#contacto" style="background:#FF6600;color:#fff;font:600 14px/1 Figtree,sans-serif;padding:12px 22px;border-radius:999px;margin-left:0" style-hover="background:#ff8534;color:#fff">Contáctanos</a>
 </nav>
 </sc-if>
@@ -304,8 +318,15 @@ input,textarea,select,button{font-family:inherit}
 </button>
 </sc-if>
 </div>
+</header>
 <sc-if value="{{ menuOpen }}">
-<nav style="border-top:1px solid rgba(255,255,255,.12);background:rgba(7,12,36,.97);padding:14px 28px 26px;display:flex;flex-direction:column;font:500 17px/1 Figtree,sans-serif">
+<div class="mobile-menu-overlay" onClick="{{ closeMenuOverlay }}" style="position:fixed;inset:0;z-index:70;background:rgba(7,12,36,.55);backdrop-filter:blur(4px)">
+<aside class="mobile-menu-panel" role="dialog" aria-modal="true" aria-label="Menú" style="position:absolute;top:0;right:0;bottom:0;width:min(340px,88vw);background:rgba(7,12,36,.98);border-left:1px solid rgba(255,255,255,.12);box-shadow:-18px 0 50px rgba(0,0,0,.35);display:flex;flex-direction:column;padding:18px 22px 28px;overflow:auto" onClick="{{ stopMenuBubble }}">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1)">
+<img src="assets/logo-marca.png" alt="Grupo Talenti" style="height:34px;width:auto;display:block">
+<button type="button" onClick="{{ closeMenu }}" aria-label="Cerrar menú" style="width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.07);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font:600 22px/1 Figtree,sans-serif" style-hover="background:rgba(255,255,255,.14)">×</button>
+</div>
+<nav style="display:flex;flex-direction:column;font:500 17px/1 Figtree,sans-serif;flex:1;min-height:0">
 <a href="#nosotros" onClick="{{ closeMenu }}" style="color:#fff;padding:17px 2px;border-bottom:1px solid rgba(255,255,255,.1)" style-hover="color:#FF6600">Quiénes somos</a>
 <a href="#soluciones" onClick="{{ closeMenu }}" style="color:#fff;padding:17px 2px;border-bottom:1px solid rgba(255,255,255,.1)" style-hover="color:#FF6600">Soluciones</a>
 <a href="#reclutamiento" onClick="{{ closeMenu }}" style="color:rgba(255,255,255,.78);padding:15px 2px 15px 18px;border-bottom:1px solid rgba(255,255,255,.06);font-size:15.5px" style-hover="color:#FF6600">Reclutamiento</a>
@@ -314,12 +335,14 @@ input,textarea,select,button{font-family:inherit}
 <a href="#desarrollo" onClick="{{ closeMenu }}" style="color:rgba(255,255,255,.78);padding:15px 2px 15px 18px;border-bottom:1px solid rgba(255,255,255,.06);font-size:15.5px" style-hover="color:#FF6600">Desarrollo Organizacional</a>
 <a href="#especializados" onClick="{{ closeMenu }}" style="color:rgba(255,255,255,.78);padding:15px 2px 15px 18px;border-bottom:1px solid rgba(255,255,255,.1);font-size:15.5px" style-hover="color:#FF6600">Servicios Especializados</a>
 <a href="#porque" onClick="{{ closeMenu }}" style="color:#fff;padding:17px 2px;border-bottom:1px solid rgba(255,255,255,.1)" style-hover="color:#FF6600">Por qué Talenti</a>
-<a href="https://alonso-upgrade-angular.d2a02pier3ifmj.amplifyapp.com/login" target="_blank" rel="noopener noreferrer" onClick="{{ closeMenu }}" style="color:#fff;padding:17px 2px;border-bottom:1px solid rgba(255,255,255,.1)" style-hover="color:#FF6600">Acceder al sistema</a>
-<a href="https://talenti.com.mx/sistema_digital" target="_blank" rel="noopener noreferrer" onClick="{{ closeMenu }}" style="margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px;border:1.5px solid rgba(255,255,255,.55);color:#fff;font:600 16px/1 Figtree,sans-serif;padding:17px;border-radius:999px;background:rgba(255,255,255,.06)" style-hover="background:#fff;color:#0D1846"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"></rect><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path></svg>Acceso al sistema (DABATA)</a>
-<a href="#contacto" onClick="{{ closeMenu }}" style="margin-top:12px;background:#FF6600;color:#fff;text-align:center;font:600 16px/1 Figtree,sans-serif;padding:18px;border-radius:999px" style-hover="background:#ff8534;color:#fff">Contáctanos</a>
 </nav>
+<div style="flex:none;margin-top:auto;padding-top:20px;display:flex;flex-direction:column;gap:12px">
+<a href="https://alonso-upgrade-angular.d2a02pier3ifmj.amplifyapp.com/login" target="_blank" rel="noopener noreferrer" onClick="{{ closeMenu }}" style="display:flex;align-items:center;justify-content:center;gap:10px;border:1.5px solid rgba(255,255,255,.55);color:#fff;font:600 16px/1 Figtree,sans-serif;padding:17px;border-radius:999px;background:rgba(255,255,255,.06)" style-hover="background:#fff;color:#0D1846"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"></rect><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path></svg>Acceso al sistema (DABATA)</a>
+<a href="#contacto" onClick="{{ closeMenu }}" style="background:#FF6600;color:#fff;text-align:center;font:600 16px/1 Figtree,sans-serif;padding:18px;border-radius:999px" style-hover="background:#ff8534;color:#fff">Contáctanos</a>
+</div>
+</aside>
+</div>
 </sc-if>
-</header>
 
 <section id="top" style="position:relative;background:#070C24;color:#fff;overflow:clip">
 <div style="position:absolute;inset:0;background:radial-gradient(120% 95% at 12% -10%, #1B2E9E 0%, rgba(27,46,158,0) 58%),radial-gradient(85% 80% at 96% 6%, #FF6600 0%, rgba(255,102,0,0) 55%),radial-gradient(110% 120% at 70% 108%, #0A57C7 0%, rgba(10,87,199,0) 62%),linear-gradient(160deg,#0D1846 0%,#070C24 62%,#0D1846 100%);pointer-events:none"></div>
@@ -443,10 +466,14 @@ input,textarea,select,button{font-family:inherit}
 </div>
 </div>
 
-<div data-reveal="" style="max-width:920px;margin:0 auto">
-<p style="font:600 13px/1.4 Figtree,sans-serif;letter-spacing:.14em;color:#FF6600;margin:0 0 28px">ALGUNAS DE LAS EMPRESAS QUE CONFÍAN EN TALENTI</p>
-<div style="background:#F7F8FA;border:1px dashed rgba(13,24,70,.18);border-radius:20px;min-height:160px;padding:36px 28px;display:flex;align-items:center;justify-content:center">
-<p style="margin:0;font:500 14px/1.5 Figtree,sans-serif;letter-spacing:.04em;color:rgba(13,24,70,.45);text-align:center;text-wrap:balance">Espacio reservado para logos de clientes — pendiente de confirmación</p>
+<div data-reveal="" style="max-width:960px;margin:0 auto">
+<p style="font:600 13px/1.4 Figtree,sans-serif;letter-spacing:.14em;color:#FF6600;margin:0 0 36px;text-align:center">ALGUNAS DE LAS EMPRESAS QUE CONFÍAN EN TALENTI</p>
+<div class="client-logos" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:48px 64px">
+<img src="assets/clientes/American-Industries.svg" alt="American Industries" style="height:72px;width:auto;max-width:220px;object-fit:contain;opacity:.85">
+<img src="assets/clientes/CA.svg" alt="CA" style="height:76px;width:auto;max-width:200px;object-fit:contain;opacity:.85">
+<img src="assets/clientes/GNP.svg" alt="GNP" style="height:58px;width:auto;max-width:220px;object-fit:contain;opacity:.85">
+<img src="assets/clientes/Seguro-Inteligente.svg" alt="Seguro Inteligente" style="height:64px;width:auto;max-width:240px;object-fit:contain;opacity:.85">
+<img src="assets/clientes/Trusot.svg" alt="Trusot" style="height:54px;width:auto;max-width:210px;object-fit:contain;opacity:.85">
 </div>
 </div>
 </div>
@@ -1010,7 +1037,11 @@ class Component extends DCLogic {
   state = { narrow: false, menuOpen: false, privacyOpen: false };
   componentDidMount() {
     const mq = window.matchMedia('(max-width: 900px)');
-    const sync = () => this.setState(s => ({ narrow: mq.matches, menuOpen: mq.matches ? s.menuOpen : false }));
+    const sync = () => this.setState(s => {
+      const menuOpen = mq.matches ? s.menuOpen : false;
+      if (!menuOpen) document.body.style.overflow = '';
+      return { narrow: mq.matches, menuOpen };
+    });
     sync();
     mq.addEventListener('change', sync);
     this._mq = { mq, sync };
@@ -1116,8 +1147,24 @@ class Component extends DCLogic {
       isMobile: this.state.narrow,
       menuOpen: this.state.narrow && this.state.menuOpen,
       privacyOpen: this.state.privacyOpen,
-      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
-      closeMenu: () => this.setState({ menuOpen: false }),
+      toggleMenu: () => this.setState(s => {
+        const next = !s.menuOpen;
+        document.body.style.overflow = next ? 'hidden' : '';
+        return { menuOpen: next };
+      }),
+      closeMenu: () => {
+        document.body.style.overflow = '';
+        this.setState({ menuOpen: false });
+      },
+      closeMenuOverlay: (e) => {
+        if (e && e.target === e.currentTarget) {
+          document.body.style.overflow = '';
+          this.setState({ menuOpen: false });
+        }
+      },
+      stopMenuBubble: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+      },
       openPrivacy: () => {
         document.body.style.overflow = 'hidden';
         this.setState({ privacyOpen: true, menuOpen: false });
